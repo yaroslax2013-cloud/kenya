@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chats</title>
+
+<style>
+body{
+    margin:0;
+    background:#0f172a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    font-family:Arial, sans-serif;
+}
+
+/* phone */
+.app{
+    width:360px;
+    height:640px;
+    background:#000;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 0 40px rgba(0,0,0,0.6);
+    display:flex;
+    flex-direction:column;
+}
+
+/* header */
+.header{
+    padding:18px 15px 10px;
+    font-size:26px;
+    font-weight:bold;
+    color:white;
+}
+
+/* chat list */
+.chat-list{
+    overflow-y:auto;
+    flex:1;
+}
+
+.chat{
+    display:flex;
+    padding:12px 15px;
+    border-bottom:1px solid #111;
+    cursor:pointer;
+    align-items:center;
+    transition:0.2s;
+}
+
+.chat:hover{
+    background:#111;
+}
+
+/* avatar */
+.avatar{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    margin-right:12px;
+    object-fit:cover;
+}
+
+/* text */
+.chat-info{
+    flex:1;
+}
+
+.name{
+    font-weight:bold;
+    font-size:15px;
+    color:white;
+}
+
+.preview{
+    font-size:13px;
+    color:#aaa;
+}
+
+/* time */
+.time{
+    font-size:12px;
+    color:#888;
+}
+
+/* unread pulse */
+.unread{
+    width:22px;
+    height:22px;
+    background:#25D366;
+    color:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:12px;
+    font-weight:bold;
+
+    border-radius:50%;
+    margin-top:4px;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.25);}
+    100%{transform:scale(1);}
+}
+
+/* highlight */
+.highlight{
+    background:#1f2937 !important;
+}
+
+/* chat */
+.chat-box{
+    display:none;
+    flex-direction:column;
+    height:100%;
+    padding:15px;
+}
+
+.msg{
+    background:#1f2937;
+    padding:10px 14px;
+    border-radius:10px;
+    margin:6px 0;
+    max-width:75%;
+    font-size:14px;
+    color:white;
+    opacity:0;
+    transform:translateY(10px);
+    animation:fadeIn 0.4s forwards;
+}
+
+.right{
+    background:#25D366;
+    color:black;
+    margin-left:auto;
+}
+
+.image{
+    width:100%;
+    border-radius:10px;
+    margin-top:6px;
+}
+
+.btn{
+    display:none;
+    background:#25D366;
+    color:black;
+    text-align:center;
+    padding:14px;
+    border-radius:12px;
+    margin-top:15px;
+    font-weight:bold;
+    text-decoration:none;
+    font-size:15px;
+}
+
+@keyframes fadeIn{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div id="listScreen">
+
+    <div class="header">Chats</div>
+
+    <div class="chat-list" id="chatList">
+
+        <!-- TARGET CHAT -->
+        <div class="chat" id="targetChat" onclick="openChat()">
+            <img src="avatar1.jpg" class="avatar">
+            <div class="chat-info">
+                <div class="name">Brian</div>
+                <div class="preview">I just got paid 😳</div>
+            </div>
+            <div>
+                <div class="time">19:08</div>
+                <div class="unread">1</div>
+            </div>
+        </div>
+
+        <!-- FAKE CHATS -->
+        <div class="chat">
+            <img src="avatar2.jpg" class="avatar">
+            <div class="chat-info">
+                <div class="name">Alex</div>
+                <div class="preview">see you later</div>
+            </div>
+            <div class="time">18:22</div>
+        </div>
+
+        <div class="chat">
+            <img src="avatar3.jpg" class="avatar">
+            <div class="chat-info">
+                <div class="name">Michael</div>
+                <div class="preview">call me later</div>
+            </div>
+            <div class="time">17:40</div>
+        </div>
+
+        <div class="chat">
+            <img src="avatar4.jpg" class="avatar">
+            <div class="chat-info">
+                <div class="name">Sarah</div>
+                <div class="preview">ok 👍</div>
+            </div>
+            <div class="time">16:10</div>
+        </div>
+
+        <div class="chat">
+            <img src="avatar2.jpg" class="avatar">
+            <div class="chat-info">
+                <div class="name">David</div>
+                <div class="preview">bro check this</div>
+            </div>
+            <div class="time">15:01</div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CHAT -->
+<div class="chat-box" id="chatBox"></div>
+
+</div>
+
+<script>
+
+const chatBox = document.getElementById("chatBox");
+
+/* FAKE SCROLL */
+window.onload = () => {
+    setTimeout(fakeScroll, 800);
+};
+
+function fakeScroll(){
+    const list = document.getElementById("chatList");
+    let step = 0;
+
+    const interval = setInterval(() => {
+        list.scrollTop += 3;
+        step++;
+
+        if(step > 70){
+            clearInterval(interval);
+            highlightChat();
+        }
+    }, 20);
+}
+
+/* highlight + update message */
+function highlightChat(){
+    const chat = document.getElementById("targetChat");
+
+    chat.classList.add("highlight");
+
+    // змінюємо текст як нове повідомлення
+    chat.querySelector(".preview").innerText = "bro try this now 😳";
+
+    // вібра (якщо є)
+    navigator.vibrate && navigator.vibrate(100);
+
+    setTimeout(() => {
+        openChat();
+    }, 1000);
+}
+
+/* OPEN CHAT */
+function openChat(){
+    document.getElementById("listScreen").style.display="none";
+    chatBox.style.display="flex";
+    runChat();
+}
+
+/* MESSAGE */
+function addMessage(text, side="left"){
+    const msg = document.createElement("div");
+    msg.className = "msg " + (side==="right" ? "right":"");
+    msg.innerHTML = text;
+    chatBox.appendChild(msg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function delay(ms){
+    return new Promise(r=>setTimeout(r,ms));
+}
+
+/* CHAT FLOW */
+async function runChat(){
+
+    addMessage("I just got paid");
+    await delay(800);
+
+    addMessage("bro try this now 😳");
+    await delay(800);
+
+    addMessage("what is it?","right");
+    await delay(800);
+
+    addMessage("I used only 1850 TZS");
+    await delay(800);
+
+    addMessage('look 😳<br><img src="win.jpg" class="image">');
+    await delay(1000);
+
+    addMessage("nah this looks fake","right");
+    await delay(900);
+
+    addMessage("I thought same bro");
+    await delay(800);
+
+    addMessage("but I already withdraw twice");
+    await delay(900);
+
+    addMessage("you can start small");
+    await delay(800);
+
+    addMessage("hmm... how to join?","right");
+    await delay(1000);
+
+    addMessage("I send you link now 👇");
+
+    const btn=document.createElement("a");
+    btn.href="https://your-tracking-link.com";
+    btn.className="btn";
+    btn.innerText="Start game";
+    chatBox.appendChild(btn);
+
+    setTimeout(()=>btn.style.display="block",800);
+}
+</script>
+
+</body>
+</html>
