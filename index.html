@@ -121,6 +121,7 @@ body{
     flex-direction:column;
     height:100%;
     padding:15px;
+    overflow-y:auto;
 }
 
 .msg{
@@ -292,8 +293,16 @@ function addMessage(text, side="left"){
     const msg = document.createElement("div");
     msg.className = "msg " + (side==="right" ? "right":"");
     msg.innerHTML = text;
+
     chatBox.appendChild(msg);
-    chatBox.scrollTop = chatBox.scrollHeight;
+
+    // чекаємо поки DOM оновиться
+    requestAnimationFrame(() => {
+        chatBox.scrollTo({
+            top: chatBox.scrollHeight,
+            behavior: "smooth"
+        });
+    });
 }
 
 function delay(ms){
