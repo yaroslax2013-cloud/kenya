@@ -303,6 +303,11 @@ window.onload = () => {
     setTimeout(fakeScroll, 800);
 };
 
+let state = {
+    opened: false,
+    running: false
+};
+    
 function fakeScroll(){
     const list = document.getElementById("chatList");
     let step = 0;
@@ -332,13 +337,18 @@ function highlightChat(){
 
 /* OPEN CHAT */
 function openChat(){
-    document.getElementById("listScreen").style.display="none";
-    chatBox.style.display="flex";
 
-    setTimeout(() => {
-        runChat();
-        scrollToBottom();
-    }, 100);
+    if(state.opened) return;
+
+    state.opened = true;
+    state.running = false; // 🔥 важливо скинути
+
+    document.getElementById("listScreen").style.display = "none";
+    chatBox.style.display = "flex";
+
+    messages.innerHTML = "";
+
+    runChat();
 }
     
 /* 🔥 FIX: safe scroll */
@@ -367,6 +377,9 @@ function delay(ms){
 
 /* CHAT FLOW */
 async function runChat(){
+
+    if(state.running) return;
+    state.running = true;
 
     addMessage("I just got paid");
     await delay(800);
