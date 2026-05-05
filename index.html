@@ -173,62 +173,40 @@ body{
     
 <div class="app">
 
-<div id="listScreen">
+    <div id="listScreen">
 
-    <div class="header">Chats</div>
+        <div class="header">Chats</div>
 
-    <div class="chat-list" id="chatList">
+        <div class="chat-list" id="chatList">
 
-        <!-- TARGET CHAT -->
-        <div class="chat" id="targetChat" onclick="openChat()">
-            <img src="avatar1.jpg" class="avatar">
-            <div class="chat-info">
-                <div class="name">Brian</div>
-                <div class="preview">I just got paid 😳</div>
+            <div class="chat" id="targetChat" onclick="openChat()">
+                <img src="avatar1.jpg" class="avatar">
+                <div class="chat-info">
+                    <div class="name">Brian</div>
+                    <div class="preview">I just got paid 😳</div>
+                </div>
+                <div>
+                    <div class="time">19:08</div>
+                    <div class="unread">1</div>
+                </div>
             </div>
-            <div>
-                <div class="time">19:08</div>
-                <div class="unread">1</div>
+
+            <div class="chat">
+                <img src="avatar2.jpg" class="avatar">
+                <div class="chat-info">
+                    <div class="name">Alex</div>
+                    <div class="preview">see you later</div>
+                </div>
+                <div class="time">18:22</div>
             </div>
+
         </div>
 
-        <!-- FAKE CHATS -->
-        <div class="chat">
-            <img src="avatar2.jpg" class="avatar">
-            <div class="chat-info">
-                <div class="name">Alex</div>
-                <div class="preview">see you later</div>
-            </div>
-            <div class="time">18:22</div>
-        </div>
+    </div>
 
-        <div class="chat">
-            <img src="avatar3.jpg" class="avatar">
-            <div class="chat-info">
-                <div class="name">Michael</div>
-                <div class="preview">call me later</div>
-            </div>
-            <div class="time">17:40</div>
-        </div>
-
-        <div class="chat">
-            <img src="avatar4.jpg" class="avatar">
-            <div class="chat-info">
-                <div class="name">Sarah</div>
-                <div class="preview">ok 👍</div>
-            </div>
-            <div class="time">16:10</div>
-        </div>
-
-        <div class="chat">
-            <img src="avatar2.jpg" class="avatar">
-            <div class="chat-info">
-                <div class="name">David</div>
-                <div class="preview">bro check this</div>
-            </div>
-            <div class="time">15:01</div>
-        </div>
-
+    <!-- CHAT MUST BE INSIDE .app -->
+    <div class="chat-box" id="chatBox">
+        <div id="messages"></div>
     </div>
 
 </div>
