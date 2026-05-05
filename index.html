@@ -15,7 +15,7 @@ body{
     height:100vh;
     font-family:Arial, sans-serif;
 }
-
+  
 /* phone */
 .app{
     width:360px;
@@ -256,6 +256,7 @@ function openChat(){
 
     setTimeout(() => {
         runChat();
+        scrollToBottom();
     }, 100);
 }
     
@@ -274,9 +275,9 @@ function addMessage(text, side="left"){
 
     messages.appendChild(msg);
 
-    requestAnimationFrame(() => {
-        messages.scrollIntoView({ behavior: "smooth", block: "end" });
-    });
+    setTimeout(() => {
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }, 0);
 }
     
 function delay(ms){
