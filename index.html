@@ -282,7 +282,7 @@ function addMessage(text, side="left"){
     messages.appendChild(msg);
 
     requestAnimationFrame(() => {
-        chatBox.scrollTop = chatBox.scrollHeight;
+        messages.scrollIntoView({ behavior: "smooth", block: "end" });
     });
 }
     
