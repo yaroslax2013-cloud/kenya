@@ -278,10 +278,13 @@ function highlightChat(){
 
 /* OPEN CHAT */
 function openChat(){
-    document.getElementById("listScreen").style.display = "none";
-    chatBox.style.display = "flex";
+    document.getElementById("listScreen").style.display="none";
+    chatBox.style.display="flex";
 
-    runChat();
+    setTimeout(() => {
+        scrollToBottom();
+        runChat();
+    }, 50);
 }
 
 /* 🔥 FIX: safe scroll */
@@ -297,11 +300,11 @@ function addMessage(text, side="left"){
     msg.className = "msg " + (side==="right" ? "right":"");
     msg.innerHTML = text;
 
-    const messages = document.getElementById("messages");
+    messages.appendChild(msg);
 
     scrollToBottom();
 }
-
+    
 function delay(ms){
     return new Promise(r => setTimeout(r, ms));
 }
