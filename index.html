@@ -167,9 +167,6 @@ body{
 
 <body>
     
-<div class="chat-box" id="chatBox">
-    <div id="messages"></div>
-</div>
     
 <div class="app">
 
@@ -282,7 +279,7 @@ function addMessage(text, side="left"){
     messages.appendChild(msg);
 
     requestAnimationFrame(() => {
-        messages.scrollIntoView({ behavior: "smooth", block: "end" });
+        chatBox.scrollTop = chatBox.scrollHeight;
     });
 }
     
