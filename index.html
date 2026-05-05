@@ -296,13 +296,12 @@ function addMessage(text, side="left"){
 
     chatBox.appendChild(msg);
 
-    // чекаємо поки DOM оновиться
-    requestAnimationFrame(() => {
+    setTimeout(() => {
         chatBox.scrollTo({
             top: chatBox.scrollHeight,
             behavior: "smooth"
         });
-    });
+    }, 0);
 }
 
 function delay(ms){
@@ -350,8 +349,11 @@ async function runChat(){
     btn.innerText="Start game";
     chatBox.appendChild(btn);
 
-    setTimeout(()=>btn.style.display="block",800);
-}
+setTimeout(()=>{
+    btn.style.display="block";
+    scrollToBottom();
+},500);
+    
 </script>
 
 </body>
