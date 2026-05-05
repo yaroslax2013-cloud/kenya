@@ -297,7 +297,7 @@ function addMessage(text, side="left"){
     msg.className = "msg " + (side==="right" ? "right":"");
     msg.innerHTML = text;
 
-    chatBox.appendChild(msg);
+    const messages = document.getElementById("messages");
 
     scrollToBottom();
 }
