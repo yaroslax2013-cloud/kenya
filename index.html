@@ -241,6 +241,7 @@ body{
 <script>
 
 const chatBox = document.getElementById("chatBox");
+const messages = document.getElementById("messages");
 
 /* FAKE SCROLL */
 window.onload = () => {
@@ -282,8 +283,8 @@ function openChat(){
     chatBox.style.display="flex";
 
     setTimeout(() => {
-        scrollToBottom();
         runChat();
+        scrollToBottom();
     }, 50);
 }
 
@@ -302,7 +303,9 @@ function addMessage(text, side="left"){
 
     messages.appendChild(msg);
 
-    scrollToBottom();
+    requestAnimationFrame(() => {
+        chatBox.scrollTop = chatBox.scrollHeight;
+    });
 }
     
 function delay(ms){
