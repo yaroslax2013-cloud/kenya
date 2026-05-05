@@ -208,9 +208,6 @@ body{
 
 </div>
 
-<!-- CHAT -->
-<div class="chat-box" id="chatBox"></div>
-
 </div>
 
 <script>
@@ -261,7 +258,7 @@ function openChat(){
         runChat();
     }, 100);
 }
-
+    
 /* 🔥 FIX: safe scroll */
 function scrollToBottom(){
     requestAnimationFrame(() => {
@@ -278,7 +275,7 @@ function addMessage(text, side="left"){
     messages.appendChild(msg);
 
     requestAnimationFrame(() => {
-        chatBox.scrollTop = chatBox.scrollHeight;
+        messages.scrollIntoView({ behavior: "smooth", block: "end" });
     });
 }
     
